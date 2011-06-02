@@ -1,0 +1,14 @@
+PATH=$HOME/bin:/usr/local/bin:/usr/bin:$PATH
+
+LS_OPTIONS="--color=tty -F -b -T 0"
+export LS_OPTIONS
+
+source $HOME/.bash_aliases
+source $HOME/.bash_prompt
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi

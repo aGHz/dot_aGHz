@@ -1,0 +1,15 @@
+CLEAR="\[\e[0m\]"
+RED="\[\e[31m\]"
+GREEN="\[\e[32m\]"
+GREEN_BOLD="\[\e[32;1m\]"
+YELLOW="\[\e[33m\]"
+YELLOW_BOLD="\[\e[33;1m\]"
+BLUE="\[\e[34m\]"
+BLUE_BOLD="\[\e[34;1m\]"
+
+USERNAME="\u"
+HOSTNAME="\h"
+
+PS1="$YELLOW[$BLUE$USERNAME$GREEN@$BLUE$HOSTNAME$YELLOW][$GREEN\w$YELLOW]$RED>$CLEAR "
+
+export PS1

@@ -1,0 +1,12 @@
+alias ll="ls -l --color=yes"
+alias lall="ls -l -a --color=yes"
+
+alias G="grep -rn --exclude=*\.svn* "
+alias F="find . -name "
+
+# Git aliases
+alias glog="git log --format=format:'%w(200,0,4)%Cblue%aN%Creset: %s'"
+alias glogful="git log --format=format:'%Cblue%aN%Creset: %Cgreen%H%Creset%n%B'"
+alias gst="git status"
+alias gd="git diff HEAD"
+
