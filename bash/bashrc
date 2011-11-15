@@ -1,10 +1,50 @@
 PATH=$HOME/bin:/usr/local/bin:/usr/bin:$PATH
 
-LS_OPTIONS="--color=tty -F -b -T 0"
-export LS_OPTIONS
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
-source $HOME/.bash_aliases
-source $HOME/.bash_prompt
+
+# === History
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+
+# === Colors
+
+# enable color support of ls
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+
+# === Alias definitions
+
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+
+# === Prompt
+
+# A complicated prompt definition lives better in its own file
+if [ -f ~/.bash_prompt ]; then
+    . ~/.bash_prompt
+fi
+
+
+# === Programmable completion
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -12,3 +52,11 @@ source $HOME/.bash_prompt
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+
+# === Misc
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+

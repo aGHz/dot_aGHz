@@ -1,6 +1,9 @@
-alias ll="ls -l --color=yes"
-alias lall="ls -l -a --color=yes"
+LS_OPTIONS="--color=tty -F -b -T 0"
+export LS_OPTIONS
+alias ll="ls $LS_OPTIONS -l"
+alias lall="ls $LS_OPTIONS -l -a"
 
+alias grep="grep --color=auto"
 alias G="grep -rn --exclude=*\.svn* "
 alias F="find . -name "
 
