@@ -1,4 +1,8 @@
-LS_OPTIONS="--color=tty -F -b -T 0"
+if [[ `uname` -eq "Darwin" ]]; then
+    LS_OPTIONS="-G -F -b"
+else
+    LS_OPTIONS="--color=tty -F -b -T 0"
+fi
 export LS_OPTIONS
 alias ll="ls $LS_OPTIONS -l"
 alias lall="ls $LS_OPTIONS -l -a"
