@@ -1,3 +1,5 @@
 [user]
 	name = Adrian Ghizaru
 	email = adrian.ghizaru@gmail.com
+[diff]
+    color = always
