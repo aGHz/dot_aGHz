@@ -1,4 +1,5 @@
 PATH=$HOME/bin:/usr/local/bin:/usr/bin:$PATH
+NODE_PATH=$NODE_PATH:/usr/local/lib/node
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -16,6 +17,11 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+
+
+# === Locale
+LC_COLLATE=C
+export LC_COLLATE
 
 
 # === Colors

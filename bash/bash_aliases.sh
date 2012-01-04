@@ -7,8 +7,8 @@ export LS_OPTIONS
 alias ll="ls $LS_OPTIONS -l"
 alias lall="ls $LS_OPTIONS -l -a"
 
-alias grep="grep --color=auto"
-alias G="grep -rn --exclude=*\.svn* "
+alias grep="grep --color=always -n"
+alias G="grep -r --exclude=*\.svn* "
 alias F="find . -name "
 
 # Git aliases
