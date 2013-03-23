@@ -66,3 +66,5 @@ fi
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+SVN_EDITOR=vim
+export SVN_EDITOR
