@@ -2,6 +2,7 @@
 	name = Adrian Ghizaru
 	email = adrian.ghizaru@gmail.com
 [diff]
+    external = git_diff_wrapper.sh
     color = always
 [status]
     color = always
