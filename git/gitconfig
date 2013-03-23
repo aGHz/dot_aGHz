@@ -24,3 +24,12 @@
   added = yellow
   changed = green
   untracked = magenta
+
+# A better vimdiff git merge tool
+# http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
+[merge]
+	tool = git_merge_vimdiff
+[mergetool "git_merge_vimdiff"]
+	cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+	keepBackup = false
