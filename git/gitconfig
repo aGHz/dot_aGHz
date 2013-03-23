@@ -3,3 +3,24 @@
 	email = adrian.ghizaru@gmail.com
 [diff]
     color = always
+[status]
+    color = always
+[branch]
+    color = always
+[pager]
+    diff =
+    log =
+
+[color "branch"]
+  current = green
+  local = blue
+  remote = yellow
+[color "diff"]
+  meta = magenta
+  frag = blue
+  old = red
+  new = green
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = magenta
