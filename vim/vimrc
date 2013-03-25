@@ -1,0 +1,87 @@
+set nocompatible
+set viminfo='2\,"20000
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set showcmd
+set autoindent
+set hidden
+set showmatch
+set backspace=2
+syntax on
+" Remove extraneous whitespace from the end of a buffer.
+"autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
+"autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/[ \t\r]\+$//e
+" HTML files should be highlighted like PHP files.
+"autocmd FileType html set filetype=php
+" The Oracle afiedt.buf file should be highlighted like SQL files.
+augroup filetypedetect
+    au BufNewFile,BufRead afiedt.buf setf sql
+augroup END
+
+autocmd FileType html,htmldjango,mako,css set tabstop=2
+autocmd FileType html,htmldjango,mako,css set softtabstop=2
+autocmd FileType html,htmldjango,mako,css set shiftwidth=2
+
+" ADRIAN STUFF
+set background=light
+set laststatus=2 " status line even with only one window
+set mouse=a
+
+set number
+set smd
+set sc
+set nowrap
+set hls
+
+" Status line
+set statusline=[%n] " buffer number
+set statusline+=%(\ %m%r%h%) " [+][RO][Help]
+set statusline+=\ %f " file name
+set statusline+=%= " start right aligned items
+set statusline+=%y " [filetype]
+set statusline+=\ [%3b:0x%02B] " byte at cursor, in hex
+"set statusline+=\ (%L)\ %3l,%-3c " (maxlines)line,col
+set statusline+=\ %2c,%3l/%L " (maxlines)line,col
+
+" Tell vim to remember certain things when we exit
+"  '100  :  marks will be remembered for up to 100 previously edited files
+"  "1000 :  will save up to 1000 lines for each register
+"  :20   :  up to 20 lines of command-line history will be remembered
+"  n...  :  where to save the viminfo files
+set viminfo='100,\"1000,:20,n~/.vim/viminfo
+
+set viewoptions=cursor,folds,options
+set viewdir=~/.vim/view
+
+" maintain the buffer's view options and restore them when coming back
+" (in particular topline so that it doesn't scroll the current line to middle of screen)
+" This emulates a windowbuffer-local by having a window-local dictionary with buffer numbers as keys
+au VimEnter,WinEnter * if(!exists('w:bufsettings')) | let w:bufsettings = {} | endif
+au BufLeave * let w:bufsettings[bufnr('%')] = winsaveview()
+au BufEnter * if(exists('w:bufsettings['.bufnr('%').']')) | call winrestview(w:bufsettings[bufnr('%')]) | endif
+
+" Demonstrate the triggering of (Win|Buf)(Enter|Leave) events
+"au VimEnter * let g:EventsHist = []
+"au WinEnter * call add(g:EventsHist, 'WE-'.winnr().'-'.bufnr('%'))
+"au WinLeave * call add(g:EventsHist, 'WL-'.winnr().'-'.bufnr('%'))
+"au BufEnter * call add(g:EventsHist, 'BE-'.winnr().'-'.bufnr('%'))
+"au BufLeave * call add(g:EventsHist, 'BL-'.winnr().'-'.bufnr('%'))
+
+" highlight word under cursor
+nnoremap <F10> :set hls<CR>:let @/="<C-r><C-w>"<CR>
+nnoremap <C-F10> :nohls<CR>
+
+" cursor line
+hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
+hi CursorColumn cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
+" :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nnoremap <F11> :set cursorline! cursorcolumn!<CR>
+
+" highlight text after column 79
+hi bigline none
+match bigline /\%80v.\+/
+nnoremap <F12> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
+nnoremap <S-F12> :hi bigline none<CR>
+
