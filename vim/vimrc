@@ -1,79 +1,76 @@
+"set t_Co=256                " 256 color terminal (seems to mess up the color scheme)
 set nocompatible
-set viminfo='2\,"20000
+set hidden                  " Hide buffers instead of closing them (useful for :e)
+
+set showcmd                 " Show partial command as it is typed
+set showmode                " Show INSERT, REPLACE or VISUAL
+set showmatch               " When a bracket is inserted, briefly jump to the matching one
+set nowrap                  " Don't soft-wrap
+set number
+set wildignore=*.swp,*.pyc  " Ignore these patterns when tab-completing
+
+" Searching options
+set hlsearch                " Highlight search term
+set incsearch               " Show search matches as you type
+"set smartcase               " Ignore case when search is all lowercase
+
+" Color options
+syntax on
+set background=light
+highlight SignColumn ctermbg=None
+"highlight Search ctermbg=Yellow
+
+" GUI systems integration (mouse, clipboard)
+set mouse=a
+set clipboard=unnamedplus   " Copy/paste from X
+
+" Tell vim to remember certain things when we exit
+"  '100   :  marks will be remembered for up to 100 previously edited files
+"  "10000 :  will save up to 1000 lines for each register
+"  :20    :  up to 20 lines of command-line history will be remembered
+"  n...   :  where to save the viminfo files
+set viminfo='100,\"10000,:20,n~/.vim/viminfo
+
+" Tabs and indentation
 set tabstop=4
 set softtabstop=4
-set shiftwidth=4
 set expandtab
-set showcmd
 set autoindent
-set hidden
-set showmatch
-set backspace=2
-syntax on
-" Remove extraneous whitespace from the end of a buffer.
-"autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
-"autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/[ \t\r]\+$//e
-" HTML files should be highlighted like PHP files.
-"autocmd FileType html set filetype=php
-" The Oracle afiedt.buf file should be highlighted like SQL files.
-augroup filetypedetect
-    au BufNewFile,BufRead afiedt.buf setf sql
-augroup END
+set shiftwidth=4            " Number of spaces used for auto-indent
+set smarttab                " Insert tabs on the start of a line according to shiftwidth, not tabstop
+set backspace=indent,eol,start " Backspace over auto-indent, line breaks and past the start of the insert
 
+" Tabs for HTML (and templates) and CSS
+" TODO This should be replaced by settings in plugins
 autocmd FileType html,htmldjango,mako,css set tabstop=2
 autocmd FileType html,htmldjango,mako,css set softtabstop=2
 autocmd FileType html,htmldjango,mako,css set shiftwidth=2
 
-" ADRIAN STUFF
-set background=light
-set laststatus=2 " status line even with only one window
-set mouse=a
+" Remove extraneous whitespace from the end of a buffer.
+autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
+autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/[ \t\r]\+$//e
 
-set number
-set smd
-set sc
-set nowrap
-set hls
+" Highlight HTML like django
+autocmd FileType html set filetype=htmldjango
 
 " Status line
-set statusline=[%n] " buffer number
-set statusline+=%(\ %m%r%h%) " [+][RO][Help]
-set statusline+=\ %f " file name
-set statusline+=%= " start right aligned items
-set statusline+=%y " [filetype]
-set statusline+=\ [%3b:0x%02B] " byte at cursor, in hex
-"set statusline+=\ (%L)\ %3l,%-3c " (maxlines)line,col
-set statusline+=\ %2c,%3l/%L " (maxlines)line,col
+set laststatus=2                " status line even with only one window
+set statusline=[%n]             " buffer number
+set statusline+=%(\ %m%r%h%)    " [+][RO][Help]
+set statusline+=\ %f            " file name
+set statusline+=%=              " start right aligned items
+set statusline+=%y              " [filetype]
+set statusline+=\ [%3b:0x%02B]  " byte at cursor, in hex
+set statusline+=\ %2c,%3l/%L    " col, line/maxlines
 
-" Tell vim to remember certain things when we exit
-"  '100  :  marks will be remembered for up to 100 previously edited files
-"  "1000 :  will save up to 1000 lines for each register
-"  :20   :  up to 20 lines of command-line history will be remembered
-"  n...  :  where to save the viminfo files
-set viminfo='100,\"1000,:20,n~/.vim/viminfo
 
-set viewoptions=cursor,folds,options
-set viewdir=~/.vim/view
-
-" maintain the buffer's view options and restore them when coming back
-" (in particular topline so that it doesn't scroll the current line to middle of screen)
-" This emulates a windowbuffer-local by having a window-local dictionary with buffer numbers as keys
-au VimEnter,WinEnter * if(!exists('w:bufsettings')) | let w:bufsettings = {} | endif
-au BufLeave * let w:bufsettings[bufnr('%')] = winsaveview()
-au BufEnter * if(exists('w:bufsettings['.bufnr('%').']')) | call winrestview(w:bufsettings[bufnr('%')]) | endif
-
-" Demonstrate the triggering of (Win|Buf)(Enter|Leave) events
-"au VimEnter * let g:EventsHist = []
-"au WinEnter * call add(g:EventsHist, 'WE-'.winnr().'-'.bufnr('%'))
-"au WinLeave * call add(g:EventsHist, 'WL-'.winnr().'-'.bufnr('%'))
-"au BufEnter * call add(g:EventsHist, 'BE-'.winnr().'-'.bufnr('%'))
-"au BufLeave * call add(g:EventsHist, 'BL-'.winnr().'-'.bufnr('%'))
+" === Utility keys
 
 " highlight word under cursor
 nnoremap <F10> :set hls<CR>:let @/="<C-r><C-w>"<CR>
 nnoremap <C-F10> :nohls<CR>
 
-" cursor line
+" cursor crosshair
 hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
 hi CursorColumn cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
@@ -85,3 +82,66 @@ match bigline /\%80v.\+/
 nnoremap <F12> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
 nnoremap <S-F12> :hi bigline none<CR>
 
+
+" === Misc settings
+
+" mkview options (Vim scripts that restore the contents of the current window)
+set viewoptions=cursor,folds,options
+set viewdir=~/.vim/view
+
+" maintain the buffer's view options and restore them when coming back
+" (in particular topline so that it doesn't scroll the current line to middle of screen)
+" This emulates a windowbuffer-local by having a window-local dictionary with buffer numbers as keys
+"au VimEnter,WinEnter * if(!exists('w:bufsettings')) | let w:bufsettings = {} | endif
+"au BufLeave * let w:bufsettings[bufnr('%')] = winsaveview()
+"au BufEnter * if(exists('w:bufsettings['.bufnr('%').']')) | call winrestview(w:bufsettings[bufnr('%')]) | endif
+
+" Demonstrate the triggering of (Win|Buf)(Enter|Leave) events
+"au VimEnter * let g:EventsHist = []
+"au WinEnter * call add(g:EventsHist, 'WE-'.winnr().'-'.bufnr('%'))
+"au WinLeave * call add(g:EventsHist, 'WL-'.winnr().'-'.bufnr('%'))
+"au BufEnter * call add(g:EventsHist, 'BE-'.winnr().'-'.bufnr('%'))
+"au BufLeave * call add(g:EventsHist, 'BL-'.winnr().'-'.bufnr('%'))
+
+
+" === Vundle
+" https://github.com/gmarik/vundle
+
+filetype off                    " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+" ---
+"Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
+"Bundle 'amitdev/vimpy'
+
+
+" My bundles here:
+" original repos on github
+"Bundle 'Lokaltog/vim-easymotion'
+"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Bundle 'tpope/vim-rails.git'
+" vim-scripts repos
+"Bundle 'L9'
+"Bundle 'FuzzyFinder'
+" non github repos
+"Bundle 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (ie. when working on your own plugin)
+"Bundle 'file:///Users/gmarik/path/to/plugin'
+" ...
+
+filetype plugin indent on     " required!
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle command are not allowed..
