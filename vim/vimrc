@@ -131,7 +131,9 @@ Bundle 'gmarik/vundle'
 "Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
 "Bundle 'amitdev/vimpy'
-
+Bundle 'andviro/flake8-vim'
+Bundle 'Shutnik/jshint2.vim'
+Bundle 'hynek/vim-python-pep8-indent'
 
 " My bundles here:
 " original repos on github
@@ -157,3 +159,9 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
+
+
+" --- flake8-vim options ---
+let g:PyFlakeOnWrite = 0
+let g:PyFlakeMaxLineLength = 120
+
