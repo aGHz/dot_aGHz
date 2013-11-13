@@ -8,6 +8,9 @@ set showmatch               " When a bracket is inserted, briefly jump to the ma
 set nowrap                  " Don't soft-wrap
 set number
 set wildignore=*.swp,*.pyc  " Ignore these patterns when tab-completing
+set virtualedit=block       " Move freely into null-space when in visual block mode
+set splitright              " When splitting to view a new file, open it on the right
+set splitbelow              " When splitting to view a new file, open it at the bottom
 
 " Searching options
 set hlsearch                " Highlight search term
@@ -36,15 +39,17 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 set autoindent
+"set smartindent
+set nocindent
 set shiftwidth=4            " Number of spaces used for auto-indent
 set smarttab                " Insert tabs on the start of a line according to shiftwidth, not tabstop
 set backspace=indent,eol,start " Backspace over auto-indent, line breaks and past the start of the insert
 
 " Tabs for HTML (and templates) and CSS
 " TODO This should be replaced by settings in plugins
-autocmd FileType html,htmldjango,mako,css set tabstop=2
-autocmd FileType html,htmldjango,mako,css set softtabstop=2
-autocmd FileType html,htmldjango,mako,css set shiftwidth=2
+autocmd FileType html,htmldjango,mako,css,javascript set tabstop=2
+autocmd FileType html,htmldjango,mako,css,javascript set softtabstop=2
+autocmd FileType html,htmldjango,mako,css,javascript set shiftwidth=2
 
 " Remove extraneous whitespace from the end of a buffer.
 autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
@@ -64,6 +69,14 @@ set statusline+=\ [%3b:0x%02B]  " byte at cursor, in hex
 set statusline+=\ %2c,%3l/%L    " col, line/maxlines
 
 
+" === Better default keys
+
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap } }zz
+nnoremap { {zz
+
+
 " === Utility keys
 
 " highlight word under cursor
@@ -81,7 +94,6 @@ hi bigline none
 match bigline /\%80v.\+/
 nnoremap <F12> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
 nnoremap <S-F12> :hi bigline none<CR>
-
 
 " === Misc settings
 
