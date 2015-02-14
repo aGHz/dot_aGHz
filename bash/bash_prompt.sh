@@ -1,3 +1,7 @@
+PROMPT_LABEL="exocore"
+PROMPT_USERNAME="\u"
+PROMPT_HOSTNAME="\h"
+
 CLEAR="\[\e[0m\]"
 RED="\[\e[31m\]"
 GREEN="\[\e[32m\]"
@@ -6,6 +10,8 @@ YELLOW="\[\e[33m\]"
 YELLOW_BOLD="\[\e[33;1m\]"
 BLUE="\[\e[34m\]"
 BLUE_BOLD="\[\e[34;1m\]"
+MAGENTA="\[\e[35m\]"
+MAGENTA_BOLD="\[\e[35;1m\]"
 
 # Colors for prompt
 COLOR_RED=$(tput sgr0 && tput setaf 1)
@@ -24,9 +30,6 @@ COLOR_LIGHTMAGENTA=$(tput sgr0 && tput setaf 5 && tput bold)
 COLOR_LIGHTCYAN=$(tput sgr0 && tput setaf 6 && tput bold)
 COLOR_RESET=$(tput sgr0)
 
-USERNAME="\u"
-HOSTNAME="\h"
-
 function parse_git_branch {
     ref=$(git symbolic-ref HEAD 2> /dev/null) || return
     #printf -v PRE %b "\e[33m<\e[31m"
@@ -36,10 +39,21 @@ function parse_git_branch {
     echo "$PRE${ref#refs/heads/}$POST"
 }
 
-#PS1="$YELLOW[$BLUE$USERNAME$GREEN@$BLUE$HOSTNAME$YELLOW][$GREEN\w$YELLOW]$RED>$CLEAR "
 
 # hostname
-PS1="$YELLOW[$BLUE$HOSTNAME$YELLOW]"
+if [ $PROMPT_LABEL ]; then
+    if [[ `whoami` == "root" ]]; then
+        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$MAGENTA$PROMPT_LABEL$YELLOW]"
+    else
+        PS1="$YELLOW[$MAGENTA$PROMPT_LABEL$YELLOW]"
+    fi
+else
+    if [[ `whoami` == "root" ]]; then
+        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$BLUE$PROMPT_HOSTNAME$YELLOW]"
+    else
+        PS1="$YELLOW[$BLUE$PROMPT_USERNAME$GREEN@$BLUE$PROMPT_HOSTNAME$YELLOW]"
+    fi
+fi
 
 # git branch
 PS1="$PS1\$(parse_git_branch)"
