@@ -1,4 +1,4 @@
-if [[ `uname` -eq "Darwin" ]]; then
+if [[ `uname` == "Darwin" ]]; then
     LS_OPTIONS="-G -F -b"
 else
     LS_OPTIONS="--color=tty -F -b -T 0"
