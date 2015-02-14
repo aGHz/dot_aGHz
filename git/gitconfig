@@ -1,16 +1,18 @@
 [user]
-	name = Adrian Ghizaru
-	email = adrian.ghizaru@gmail.com
+  name = Adrian Ghizaru
+  email = adrian.ghizaru@gmail.com
+[core]
+  editor = vim
 [diff]
-    external = git_diff_wrapper.sh
-    color = always
+  external = git_diff_wrapper.sh
+  color = always
 [status]
-    color = always
+  color = always
 [branch]
-    color = always
+  color = always
 [pager]
-    diff =
-    log =
+  diff =
+  log =
 
 [color "branch"]
   current = green
@@ -29,8 +31,8 @@
 # A better vimdiff git merge tool
 # http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
 [merge]
-	tool = git_merge_vimdiff
+  tool = git_merge_vimdiff
 [mergetool "git_merge_vimdiff"]
-	cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
-	trustExitCode = true
-	keepBackup = false
+  cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
+  trustExitCode = true
+  keepBackup = false
