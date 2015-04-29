@@ -5,6 +5,10 @@ NODE_PATH=$NODE_PATH:/usr/local/lib/node
 [ -z "$PS1" ] && return
 
 
+# === ssh-agent
+eval "$(ssh-agent)"
+
+
 # === History
 
 # don't put duplicate lines in the history. See bash(1) for more options
