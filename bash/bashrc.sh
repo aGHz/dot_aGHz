@@ -84,3 +84,6 @@ shopt -s checkwinsize
 
 SVN_EDITOR=vim
 export SVN_EDITOR
+
+export NVM_DIR="/home/tek/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
