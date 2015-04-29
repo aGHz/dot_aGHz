@@ -19,6 +19,8 @@ alias glogful='git log --date=iso --format=format:'\''%Cblue%aN%Creset: %Cgreen%
 alias gst="git status"
 alias gdvim="git diff HEAD"
 alias gd="git diff HEAD --no-ext-diff"
+alias gfa="git fetch --all"
+alias gfo="git fetch origin"
 
 # Mercurial aliases
 alias hglog='hg log --template '\''\033[32m{rev}\033[0m | \033[34m{author|user}\033[0m\t | {desc} \033[32m{date|age} on {date|rfc822date}\033[0m\n'\'''
