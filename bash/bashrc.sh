@@ -70,6 +70,12 @@ export PAGER=less
 export LESS="-iMSx4 -FX"
 
 
+# === Pyenv
+
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 # === Misc
 
 # check the window size after each command and, if necessary,
