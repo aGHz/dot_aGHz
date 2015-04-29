@@ -25,7 +25,7 @@ highlight SignColumn ctermbg=None
 
 " GUI systems integration (mouse, clipboard)
 set mouse=a
-set clipboard=unnamedplus   " Copy/paste from X
+set clipboard=unnamed   " Copy/paste from X
 
 " Tell vim to remember certain things when we exit
 "  '100   :  marks will be remembered for up to 100 previously edited files
@@ -121,47 +121,54 @@ set viewdir=~/.vim/view
 
 filetype off                    " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
+
 " ---
-"Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-"Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
-"Bundle 'amitdev/vimpy'
-Bundle 'andviro/flake8-vim'
-Bundle 'Shutnik/jshint2.vim'
-Bundle 'hynek/vim-python-pep8-indent'
+"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+"Plugin 'amitdev/vimpy'
+Plugin 'andviro/flake8-vim'
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'vim-scripts/nginx.vim'
 
 " My bundles here:
 " original repos on github
-"Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-"Bundle 'tpope/vim-rails.git'
+"Plugin 'Lokaltog/vim-easymotion'
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Plugin 'tpope/vim-rails.git'
 " vim-scripts repos
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
+"Plugin 'L9'
+"Plugin 'FuzzyFinder'
 " non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
+"Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (ie. when working on your own plugin)
-"Bundle 'file:///Users/gmarik/path/to/plugin'
+"Plugin 'file:///Users/gmarik/path/to/plugin'
 " ...
 
+call vundle#end()
 filetype plugin indent on     " required!
 "
 " Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+" :Plugin        - list configured bundles
+" :Plugin(!)     - install(update) bundles
+" :Plugin(!) foo - search(or refresh cache first) for foo
+" :Plugin(!)     - confirm(or auto-approve) removal of unused bundles
 "
 " see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
+" NOTE: comments after Plugin command are not allowed..
 
 
 " --- flake8-vim options ---
 let g:PyFlakeOnWrite = 0
 let g:PyFlakeMaxLineLength = 120
+
+" --- nginx.vim setup ---
+au BufRead,BufNewFile /etc/nginx/*,/home/tek/etc/nginx/* if &ft == '' | setfiletype nginx | endif
 
