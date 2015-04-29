@@ -60,6 +60,12 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 
+# === Pager
+
+export PAGER=less
+export LESS="-iMSx4 -FX"
+
+
 # === Misc
 
 # check the window size after each command and, if necessary,
