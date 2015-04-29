@@ -36,3 +36,6 @@
   cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
   trustExitCode = true
   keepBackup = false
+
+[core]
+  excludesfile = ~/.gitignore_global
