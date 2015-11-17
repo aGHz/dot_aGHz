@@ -52,9 +52,9 @@ set backspace=indent,eol,start " Backspace over auto-indent, line breaks and pas
 
 " Tabs for HTML (and templates) and CSS
 " TODO This should be replaced by settings in plugins
-autocmd FileType html,htmldjango,mako,css,javascript set tabstop=2
-autocmd FileType html,htmldjango,mako,css,javascript set softtabstop=2
-autocmd FileType html,htmldjango,mako,css,javascript set shiftwidth=2
+autocmd FileType html,htmldjango,mako,css,javascript,json set tabstop=2
+autocmd FileType html,htmldjango,mako,css,javascript,json set softtabstop=2
+autocmd FileType html,htmldjango,mako,css,javascript,json set shiftwidth=2
 
 " Remove extraneous whitespace from the end of a buffer.
 autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
@@ -100,6 +100,10 @@ hi bigline none
 match bigline /\%80v.\+/
 nnoremap <F12> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
 nnoremap <S-F12> :hi bigline none<CR>
+
+" ssh mode: hide numbers, unset mouse, set paste
+nnoremap <F9> :set nonu<CR>:set mouse=""<CR>:set paste<CR>
+nnoremap <S-F9> :set nu<CR>:set mouse=a<CR>:set nopaste<CR>
 
 " === Misc settings
 
