@@ -13,14 +13,15 @@ eval "$(ssh-agent)"
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
-HISTCONTROL=ignoredups:ignorespace
+HISTCONTROL=erasedups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=5000
+HISTFILESIZE=5000
 
 
 # === Locale
