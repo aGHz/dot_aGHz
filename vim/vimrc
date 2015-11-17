@@ -102,8 +102,8 @@ nnoremap <F12> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
 nnoremap <S-F12> :hi bigline none<CR>
 
 " ssh mode: hide numbers, unset mouse, set paste
-nnoremap <F9> :set nonu<CR>:set mouse=""<CR>:set paste<CR>
-nnoremap <S-F9> :set nu<CR>:set mouse=a<CR>:set nopaste<CR>
+nnoremap <F9> :set nonu<CR>:set mouse=""<CR>:set paste<CR>:GitGutterSignsToggle<CR>
+nnoremap <S-F9> :set nu<CR>:set mouse=a<CR>:set nopaste<CR>:GitGutterSignsToggle<CR>
 
 " === Misc settings
 
