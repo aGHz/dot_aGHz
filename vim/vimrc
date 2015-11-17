@@ -25,6 +25,11 @@ highlight SignColumn ctermbg=None
 
 " GUI systems integration (mouse, clipboard)
 set mouse=a
+set ttymouse=xterm2
+if has('mouse_sgr')
+    set ttymouse=sgr
+endif
+set ttyscroll=1         " https://wiki.archlinux.org/index.php/Vim/.vimrc
 set clipboard=unnamed   " Copy/paste from X
 
 " Tell vim to remember certain things when we exit
