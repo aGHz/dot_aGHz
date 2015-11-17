@@ -56,7 +56,7 @@ autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/\(\S\)\@<=\s\+$//e
 autocmd BufWritePre,FileWritePre,FileAppendPre * :%s/[ \t\r]\+$//e
 
 " Highlight HTML like django
-autocmd FileType html set filetype=htmldjango
+"autocmd FileType html set filetype=htmldjango
 
 " Status line
 set laststatus=2                " status line even with only one window
@@ -75,13 +75,14 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap } }zz
 nnoremap { {zz
+nnoremap <Space> <C-w><C-w>
 
 
 " === Utility keys
 
 " highlight word under cursor
 nnoremap <F10> :set hls<CR>:let @/="<C-r><C-w>"<CR>
-nnoremap <C-F10> :nohls<CR>
+nnoremap <S-F10> :nohls<CR>
 
 " cursor crosshair
 hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
