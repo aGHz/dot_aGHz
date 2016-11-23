@@ -1,4 +1,4 @@
-PATH=$HOME/bin:/usr/local/bin:/usr/bin:$PATH
+PATH=./node_modules/.bin:$HOME/bin:/usr/local/bin:/usr/bin:$PATH
 NODE_PATH=$NODE_PATH:/usr/local/lib/node
 
 # If not running interactively, don't do anything
@@ -62,6 +62,10 @@ fi
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+if has_brew="$(type -p brew)" && [ -n $has_brew ] && [ -f $(brew --prefix)/etc/bash_completion ]; then
+    echo "has_brew"
+  . $(brew --prefix)/etc/bash_completion
 fi
 
 
