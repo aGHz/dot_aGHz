@@ -8,7 +8,7 @@ alias ll="ls $LS_OPTIONS -l"
 alias lall="ls $LS_OPTIONS -l -a"
 
 alias grep="grep --color=always"
-alias G="grep -r --exclude=*\.svn* "
+alias G='grep -Inri --exclude=*\.svn* --exclude-dir=node_modules --exclude-dir=.git'
 alias F="find . -name "
 
 # Git aliases
