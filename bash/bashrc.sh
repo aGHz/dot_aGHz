@@ -1,4 +1,4 @@
-PATH=./node_modules/.bin:$HOME/bin:/usr/local/bin:/usr/bin:$PATH
+PATH=./node_modules/.bin:/usr/local/bin:/usr/bin:$PATH
 NODE_PATH=$NODE_PATH:/usr/local/lib/node
 
 # If not running interactively, don't do anything
@@ -6,7 +6,7 @@ NODE_PATH=$NODE_PATH:/usr/local/lib/node
 
 
 # === ssh-agent
-eval "$(ssh-agent)"
+#eval "$(ssh-agent)"
 
 
 # === History
@@ -72,14 +72,21 @@ fi
 # === Pager
 
 export PAGER=less
-export LESS="-iMSx4 -FX"
+export LESS="-r -iMSx4 -FX"
 
 
 # === Pyenv
 
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
+#export PATH="$HOME/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 eval "$(pyenv virtualenv-init -)"
+
+# === NVM
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 
 # === Misc
 
@@ -89,6 +96,3 @@ shopt -s checkwinsize
 
 SVN_EDITOR=vim
 export SVN_EDITOR
-
-export NVM_DIR="/home/tek/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

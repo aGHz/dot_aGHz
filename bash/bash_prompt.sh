@@ -14,6 +14,10 @@ MAGENTA="\[\e[35m\]"
 MAGENTA_BOLD="\[\e[35;1m\]"
 
 # Colors for prompt
+# Always surround with readline ignore guards
+# RL_PROMPT_START_IGNORE RL_PROMPT_END_IGNORE
+# \[ \] in bash variables
+# \x01 \x02 in echo -e "..."
 COLOR_RED=$(tput sgr0 && tput setaf 1)
 COLOR_GREEN=$(tput sgr0 && tput setaf 2)
 COLOR_YELLOW=$(tput sgr0 && tput setaf 3)
@@ -30,46 +34,38 @@ COLOR_LIGHTMAGENTA=$(tput sgr0 && tput setaf 5 && tput bold)
 COLOR_LIGHTCYAN=$(tput sgr0 && tput setaf 6 && tput bold)
 COLOR_RESET=$(tput sgr0)
 
+
+PS1=""
+
+## hostname
+#if [ $PROMPT_LABEL ]; then
+#    if [[ `whoami` == "root" ]]; then
+#        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$MAGENTA$PROMPT_LABEL$YELLOW]"
+#    else
+#        PS1="$YELLOW[$MAGENTA$PROMPT_LABEL$YELLOW]"
+#    fi
+#else
+#    if [[ `whoami` == "root" ]]; then
+#        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$BLUE$PROMPT_HOSTNAME$YELLOW]"
+#    else
+#        PS1="$YELLOW[$BLUE$PROMPT_USERNAME$GREEN@$BLUE$PROMPT_HOSTNAME$YELLOW]"
+#    fi
+#fi
+
+# path & git branch
 function parse_git_branch {
     ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-    #printf -v PRE %b "\e[33m<\e[31m"
-    #printf -v POST %b "\e[33m>\e[0m"
-    PRE="<"
-    POST=">"
-    echo "$PRE${ref#refs/heads/}$POST"
+    echo -ne " \x01${COLOR_LIGHTCYAN}\x02${ref#refs/heads/}\x01${COLOR_RESET}\x02"
 }
-
-
-# hostname
-if [ $PROMPT_LABEL ]; then
-    if [[ `whoami` == "root" ]]; then
-        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$MAGENTA$PROMPT_LABEL$YELLOW]"
-    else
-        PS1="$YELLOW[$MAGENTA$PROMPT_LABEL$YELLOW]"
-    fi
-else
-    if [[ `whoami` == "root" ]]; then
-        PS1="$YELLOW[$RED$PROMPT_USERNAME$YELLOW@$BLUE$PROMPT_HOSTNAME$YELLOW]"
-    else
-        PS1="$YELLOW[$BLUE$PROMPT_USERNAME$GREEN@$BLUE$PROMPT_HOSTNAME$YELLOW]"
-    fi
-fi
-
-# git branch
-PS1="$PS1\$(parse_git_branch)"
-
-# path
-PS1="$PS1$YELLOW[$GREEN\w$YELLOW]"
-
-# red prompt
-PS1="$PS1$RED>$CLEAR "
+PS1="$PS1$YELLOW[$GREEN\w\$(parse_git_branch)$YELLOW]"
 
 # add Python Virtualenv info
-# edit your bin/activate file to call this script instead of handling $PS1
-#    don't forget to also call it in the deactivate() function
-if [ $VIRTUAL_ENV ]; then
-    PS1="$YELLOW($RED`basename \"$VIRTUAL_ENV\"`$YELLOW)$CLEAR$PS1"
-fi
+function parse_virtualenv {
+    [[ -z "$VIRTUAL_ENV" ]] && return
+    echo "\x01${COLOR_LIGHTRED}\x02$(basename "$VIRTUAL_ENV")\x01${COLOR_RESET}\x02"
+    #echo "${COLOR_YELLOW}(${COLOR_RED}$(basename "$VIRTUAL_ENV")${COLOR_YELLOW})${COLOR_RESET}"
+}
+PS1="${PS1}\$(parse_virtualenv)"
 
 # add Debian chroot info
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -77,18 +73,7 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     PS1="$YELLOW{$CLEAR$debian_chroot$YELLOW}$CLEAR$PS1"
 fi
 
+# red prompt
+PS1="$PS1$RED>$CLEAR "
+
 export PS1
-
-
-# interesting trick, I think this sets the xterm window title by manipulating $PS1
-# (from the Ubuntu default .bashrc)
-## If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*)
-#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#    ;;
-#*)
-#    ;;
-#esac
-
-#test
