@@ -1,4 +1,6 @@
-"set t_Co=256                " 256 color terminal (seems to mess up the color scheme)
+set t_Co=16
+set encoding=utf8
+
 set nocompatible
 set hidden                  " Hide buffers instead of closing them (useful for :e)
 
@@ -7,10 +9,16 @@ set showmode                " Show INSERT, REPLACE or VISUAL
 set showmatch               " When a bracket is inserted, briefly jump to the matching one
 set nowrap                  " Don't soft-wrap
 set number
-set wildignore=*.swp,*.pyc  " Ignore these patterns when tab-completing
 set virtualedit=block       " Move freely into null-space when in visual block mode
 set splitright              " When splitting to view a new file, open it on the right
 set splitbelow              " When splitting to view a new file, open it at the bottom
+
+set wildignore=*.swp,*.pyc  " Ignore these patterns when tab-completing
+set wildmode=longest:full,full
+set wildmenu
+
+set updatetime=100
+set timeout timeoutlen=1000 ttimeoutlen=0
 
 " Searching options
 set hlsearch                " Highlight search term
@@ -20,8 +28,38 @@ set incsearch               " Show search matches as you type
 " Color options
 syntax on
 set background=light
+
+"highlight Cursor term=NONE cterm=NONE ctermbg=DarkGray
+highlight MatchParen term=none ctermbg=Black ctermfg=Red
+
+highlight LineNr ctermfg=DarkGray
+set cursorline
+set cursorlineopt=number
+highlight clear CursorLineNr
+highlight CursorLineNr ctermfg=White
+
 highlight SignColumn ctermbg=None
-"highlight Search ctermbg=Yellow
+
+highlight clear Visual
+highlight Visual cterm=reverse
+
+highlight clear Search
+highlight Search ctermbg=DarkYellow ctermfg=Black
+
+highlight clear Todo
+highlight Todo ctermfg=Yellow ctermbg=Black
+
+highlight ColorColumn ctermbg=Black
+set colorcolumn=79
+autocmd FileType javascript set colorcolumn=100
+
+set fillchars+=vert:┃
+highlight clear VertSplit
+highlight VertSplit cterm=none ctermbg=none ctermfg=Black
+
+
+highlight Folded ctermfg=Cyan ctermbg=none
+set fillchars+=fold:\ "
 
 " GUI systems integration (mouse, clipboard)
 set mouse=a
@@ -73,6 +111,10 @@ set statusline+=%y              " [filetype]
 set statusline+=\ [%3b:0x%02B]  " byte at cursor, in hex
 set statusline+=\ %2c,%3l/%L    " col, line/maxlines
 
+highlight StatusLine term=none cterm=none gui=none ctermbg=DarkGreen ctermfg=Black
+highlight StatusLineNC term=none cterm=none gui=none ctermbg=DarkGray ctermfg=LightGray
+autocmd InsertEnter * highlight StatusLine ctermbg=DarkYellow
+autocmd InsertLeave * highlight StatusLine ctermbg=DarkGreen
 
 " === Better default keys
 
@@ -82,28 +124,55 @@ nnoremap } }zz
 nnoremap { {zz
 nnoremap <Space> <C-w><C-w>
 
+noremap ; :
+noremap <Leader>; ,
+noremap , ;
+
+nnoremap <LeftMouse> m'<LeftMouse>
+
+" === Switch numbers and symbols in insert mode
+"inoremap 1 !
+"inoremap ! 1
+"inoremap 2 @
+"inoremap @ 2
+"inoremap 3 #
+"inoremap # 3
+"inoremap 4 $
+"inoremap $ 4
+"inoremap 5 %
+"inoremap % 5
+"inoremap 6 ^
+"inoremap ^ 6
+"inoremap 7 &
+"inoremap & 7
+"inoremap 8 *
+"inoremap * 8
+"inoremap 9 (
+"inoremap ( 9
+"inoremap 0 )
+"inoremap ) 0
 
 " === Utility keys
 
 " highlight word under cursor
-nnoremap <F12> :set hls<CR>:let @/="<C-r><C-w>"<CR>
-nnoremap <C-F12> :nohls<CR>
+nnoremap <F10> :set hls<CR>:let @/="<C-r><C-w>"<CR>
+nnoremap <F12> :nohls<CR>
 
 " cursor crosshair
-hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
-hi CursorColumn cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
+"hi CursorLine   cterm=NONE ctermbg=darkyellow ctermfg=white guibg=darkyellow guifg=white
+hi CursorColumn cterm=NONE ctermbg=DarkGray ctermfg=Black
 " :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-nnoremap <F11> :set cursorline! cursorcolumn!<CR>
+nnoremap <F11> :set cursorcolumn!<CR>
 
 " highlight text after column 79
-hi bigline none
-match bigline /\%80v.\+/
-nnoremap <F10> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
-nnoremap <C-F10> :hi bigline none<CR>
+"hi bigline none
+"match bigline /\%80v.\+/
+"nnoremap <F10> :hi bigline ctermbg=red ctermfg=white guibg=#592929<CR>
+"nnoremap <C-F10> :hi bigline none<CR>
 
 " ssh mode: hide numbers, unset mouse, set paste
-nnoremap <F9> :set nonu<CR>:set mouse=""<CR>:set paste<CR>:GitGutterSignsToggle<CR>
-nnoremap <C-F9> :set nu<CR>:set mouse=a<CR>:set nopaste<CR>:GitGutterSignsToggle<CR>
+"nnoremap <F9> :set nonu<CR>:set mouse=""<CR>:set paste<CR>:GitGutterSignsToggle<CR>
+"nnoremap <C-F9> :set nu<CR>:set mouse=a<CR>:set nopaste<CR>:GitGutterSignsToggle<CR>
 
 " === Misc settings
 
@@ -129,42 +198,42 @@ set viewdir=~/.vim/view
 " === Vundle
 " https://github.com/gmarik/vundle
 
-filetype off                    " required!
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle
-Plugin 'gmarik/Vundle.vim'
-
-" ---
-"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-"Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-"Plugin 'amitdev/vimpy'
-Plugin 'andviro/flake8-vim'
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'pangloss/vim-javascript'
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'vim-scripts/nginx.vim'
-
-" My bundles here:
-" original repos on github
-"Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-"Plugin 'tpope/vim-rails.git'
-" vim-scripts repos
-"Plugin 'L9'
-"Plugin 'FuzzyFinder'
-" non github repos
-"Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (ie. when working on your own plugin)
-"Plugin 'file:///Users/gmarik/path/to/plugin'
-" ...
-
-call vundle#end()
-filetype plugin indent on     " required!
+""" filetype off                    " required!
+"""
+""" set rtp+=~/.vim/bundle/Vundle.vim
+""" call vundle#begin()
+"""
+""" " let Vundle manage Vundle
+""" Plugin 'gmarik/Vundle.vim'
+"""
+""" " ---
+""" "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+""" "Plugin 'tpope/vim-fugitive'
+""" Plugin 'airblade/vim-gitgutter'
+""" "Plugin 'amitdev/vimpy'
+""" Plugin 'andviro/flake8-vim'
+""" Plugin 'hynek/vim-python-pep8-indent'
+""" Plugin 'pangloss/vim-javascript'
+""" Plugin 'Shutnik/jshint2.vim'
+""" Plugin 'kchmck/vim-coffee-script'
+""" Plugin 'vim-scripts/nginx.vim'
+"""
+""" " My bundles here:
+""" " original repos on github
+""" "Plugin 'Lokaltog/vim-easymotion'
+""" "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+""" "Plugin 'tpope/vim-rails.git'
+""" " vim-scripts repos
+""" "Plugin 'L9'
+""" "Plugin 'FuzzyFinder'
+""" " non github repos
+""" "Plugin 'git://git.wincent.com/command-t.git'
+""" " git repos on your local machine (ie. when working on your own plugin)
+""" "Plugin 'file:///Users/gmarik/path/to/plugin'
+""" " ...
+"""
+""" call vundle#end()
+""" filetype plugin indent on     " required!
 "
 " Brief help
 " :Plugin        - list configured bundles
