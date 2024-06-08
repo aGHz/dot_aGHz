@@ -1,21 +1,21 @@
 # Colors
 
-## Dark
-
-* red: b84539
-* green: 9ebd83
-* yellow: eca52a
-* blue: 6284c2
+## Normal
+* black:   000000
+* red:     d3382d
+* green:   9ebd83
+* yellow:  eca52a
+* blue:    6284c2
 * magenta: a58bab
-* cyan: 00cdbe
-* white: d1d0d1
+* cyan:    049dd0
+* white:   e7e6dc
 
-## Light
-
-* black: 2f2f27
-* red: e23b3d
-* green: a1dc88
-* yellow: fde766
-* blue: 41bce1
-* magenta: ff70fb
-* cyan: 67fefe
+## Bright
+* black:   7e7d7a
+* red:     f3542c
+* green:   a4dc85
+* yellow:  ffb842
+* blue:    4f94df
+* magenta: c889cd
+* cyan:    1ac2fb
+* white:   ffffff
