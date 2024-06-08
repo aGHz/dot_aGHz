@@ -1,43 +1,31 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+[ -n "$PS1" ] && export PROFILE_DEBUG="" #"true"
+[ -n "$PROFILE_DEBUG" ] && echo "--- .profile"
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .profile 00: %.9f\n", time'
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-export XDG_CONFIG_HOME="$HOME/.config"
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+# Initialize $PATH from scratch
+if [ -x /usr/libexec/path_helper ]; then
+  export PATH=""
+  eval `/usr/libexec/path_helper -s`
+else
+  export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 fi
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME="$HOME/.config"
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+# programmable completion
+[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
+[ -n "$(type -p brew)" ] && [ -f "$(brew --prefix)/etc/bash_completion" ] && . "$(brew --prefix)/etc/bash_completion"
 
-# Cargo
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+# Ripgrep
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/rg/ripgreprc"
 
-# Pyenv
-eval "$(pyenv init --path)"
+# ssh-agent
+eval "$(ssh-agent)"
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Bash
+[ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .profile 99: %.9f\n", time'
+[ -n "$PROFILE_DEBUG" ] && echo "=== .profile"

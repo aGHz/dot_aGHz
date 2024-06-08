@@ -62,7 +62,7 @@ PS1="$PS1$YELLOW[$GREEN\w\$(parse_git_branch)$YELLOW]"
 # add Python Virtualenv info
 function parse_virtualenv {
     [[ -z "$VIRTUAL_ENV" ]] && return
-    echo "\x01${COLOR_LIGHTRED}\x02$(basename "$VIRTUAL_ENV")\x01${COLOR_RESET}\x02"
+    echo -e "\x01${COLOR_LIGHTRED}\x02$(basename "$VIRTUAL_ENV")\x01${COLOR_RESET}\x02"
     #echo "${COLOR_YELLOW}(${COLOR_RED}$(basename "$VIRTUAL_ENV")${COLOR_YELLOW})${COLOR_RESET}"
 }
 PS1="${PS1}\$(parse_virtualenv)"

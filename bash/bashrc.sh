@@ -1,98 +1,37 @@
-PATH=./node_modules/.bin:/usr/local/bin:/usr/bin:$PATH
-NODE_PATH=$NODE_PATH:/usr/local/lib/node
+[ -n "$PROFILE_DEBUG" ] && echo "--- .bashrc"
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 00: %.9f\n", time'
 
-# If not running interactively, don't do anything
+# ===
 [ -z "$PS1" ] && return
+# ===
 
+export BASH_CONFIG_HOME="$XDG_CONFIG_HOME/bash"
 
-# === ssh-agent
-#eval "$(ssh-agent)"
-
-
-# === History
-
-# don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
-HISTCONTROL=erasedups:ignorespace
+# History
+# man 1 bash; search for variable names
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+export HISTCONTROL=erasedups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=5000
-HISTFILESIZE=5000
-
-
-# === Locale
-LC_COLLATE=C
-export LC_COLLATE
-
-
-# === Colors
+# check the window size after each command and update LINES and COLUMNS
+shopt -s checkwinsize
 
 # enable color support of ls
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-fi
+[ -x /usr/bin/dircolors ] && [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 10: %.9f dircolors\n", time'
 
+# aliases and prompt
+[ -f "$BASH_CONFIG_HOME/alias.sh" ] && . "$BASH_CONFIG_HOME/alias.sh"
+[ -f "$BASH_CONFIG_HOME/prompt.sh" ] && . "$BASH_CONFIG_HOME/prompt.sh"
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 20: %.9f alias prompt\n", time'
 
-# === Alias definitions
-
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-
-# === Prompt
-
-# A complicated prompt definition lives better in its own file
-if [ -f ~/.bash_prompt ]; then
-    . ~/.bash_prompt
-fi
-
-
-# === Programmable completion
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-if has_brew="$(type -p brew)" && [ -n $has_brew ] && [ -f $(brew --prefix)/etc/bash_completion ]; then
-    echo "has_brew"
-  . $(brew --prefix)/etc/bash_completion
-fi
-
-
-# === Pager
-
+# pager
 export PAGER=less
 export LESS="-r -iMSx4 -FX"
 
-
-# === Pyenv
-
-#export PATH="$HOME/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-eval "$(pyenv virtualenv-init -)"
-
-# === NVM
-
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-# === Misc
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-SVN_EDITOR=vim
-export SVN_EDITOR
+[ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 99: %.9f\n", time'
+[ -n "$PROFILE_DEBUG" ] && echo "=== .bashrc"

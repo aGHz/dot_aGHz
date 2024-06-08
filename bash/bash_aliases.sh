@@ -12,6 +12,11 @@ alias cp="cp --preserve=all"
 alias grep="grep --color=always"
 alias G='grep -Inri --exclude=*\.svn* --exclude-dir=node_modules --exclude-dir=.git'
 alias F="find . -name "
+if [ -x "$(which nvim)" ]; then
+  alias v="nvim"
+else
+  alias v="vim"
+fi
 
 alias D="dig +noall +answer"
 
@@ -45,24 +50,32 @@ alias gp="git push --set-upstream origin \$(git symbolic-ref --short HEAD)"
 alias gp!="git push -f origin \$(git symbolic-ref --short HEAD)"
 
 alias gcm="git checkout master"
+alias gcma="git checkout main"
 alias gcd="git checkout develop"
 alias gnb="git checkout -t -b"
 
-alias hilite-github-issues="GREP_COLORS='mt=0;35' grep --color=yes -e '' -e '(\?#[0-9]\+)\?$'"
+if [ -x "$(which rg)" ]; then
+  alias highlight-github-issues="rg --color always --colors match:fg:magenta --passthru '#\d+'"
+  alias highlight-version="rg --color always --colors match:fg:cyan --passthru 'v?\d+\.\d+\.\d+[^\s]*'"
+  alias highlight-glog-graph="hilight-github-issues | highlight-version"
+else
+  alias hilite-github-issues='GREP_COLORS="mt=1;36" grep --color=yes -e "" -e "(\?#[0-9]\+)\?\s*$"'
+  alias highlight-glog-graph="hilight-github-issues"
+fi
 alias glog-graph="git log --graph --date=short --format=tformat:'%w(300,0,11)%C(yellow)%ad %Cblue%aN%Creset: %Cgreen%h%Creset %Cgreen% D%Creset %s'"
 glog-num() {
     if [ -z "${1##[0-9]*}" ]; then
-        glog-graph -${1:-10} "${@:2}" | hilite-github-issues;
+        glog-graph -${1:-10} --color=always "${@:2}" | highlight-glog-graph
     else
-        glog-graph -10 "$@" | hilite-github-issues;
+        glog-graph -10 --color=always "$@" | highlight-glog-graph
     fi
 }
-alias gg="glog-num"
-glog-num-nobot() { glog-num "$@" --author='^[^<]+<(?!.*[bB][oO][tT].*@users.noreply.github.com).*>$' --perl-regexp; }
-alias ggnb="glog-num-nobot"
-
+glog-num-nobot() { glog-num --author='^[^<]+<(?!.*[bB][oO][tT].*@(users.noreply.github.com|unito.io)).*>$' --perl-regexp "$@"; }
+alias gg="glog-num-nobot"
+alias ggbot="glog-num"
 
 alias gdno="git diff --no-ext-diff"
 alias gd="gdno HEAD"
 function git-diff-hash() { gdno $1~1..$1 ${2:-.}; }
 alias gd~="git-diff-hash"
+alias gl="git show --name-only"
