@@ -79,3 +79,27 @@ alias gd="gdno HEAD"
 function git-diff-hash() { gdno $1~1..$1 ${2:-.}; }
 alias gd~="git-diff-hash"
 alias gl="git show --name-only"
+
+find-up() {
+  # from: https://www.npmjs.com/package/find-config#algorithm
+  # 1. If X/file.ext exists and is a regular file, return it. STOP
+  # 2. If X has a parent directory, change X to parent. GO TO 1
+  # 3. Return NULL.
+
+  if [ -e "$1" ]; then
+    printf '%s\n' "${PWD%/}/$1"
+  elif [ "$PWD" = / ]; then
+    false
+  else
+    # a subshell so that we don't affect the caller's $PWD
+    (cd .. && find-up "$1")
+  fi
+}
+# escape the $ so the path is evaluated at runtime
+alias ,scrip="jq .scripts \"\$(find-up package.json)\""
+alias ,ver="jq --raw-output .version \"\$(find-up package.json)\""
+
+dependency-package-version() {
+  jq --raw-output .version "$(find-up node_modules)/${1}/package.json"
+}
+alias ,ver,dep="dependency-package-version"
