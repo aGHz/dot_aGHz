@@ -1,8 +1,6 @@
-if [[ `uname` == "Darwin" ]]; then
-    LS_OPTIONS="-G -F -b"
-else
-    LS_OPTIONS="--color=tty -F -b -T 0"
-fi
+# For Darwin, use coreutils or use the commented line:
+# LS_OPTIONS="-G -F -b"
+LS_OPTIONS="--color=tty -F -b -T 0"
 export LS_OPTIONS
 alias ll="ls $LS_OPTIONS -l"
 alias lall="ls $LS_OPTIONS -l -a"
@@ -10,7 +8,7 @@ alias lall="ls $LS_OPTIONS -l -a"
 alias cp="cp --preserve=all"
 
 alias grep="grep --color=always"
-alias G='grep -Inri --exclude=*\.svn* --exclude-dir=node_modules --exclude-dir=.git'
+alias G='grep -Inri --exclude-dir=node_modules --exclude-dir=.git'
 alias F="find . -name "
 if [ -x "$(which nvim)" ]; then
   alias v="nvim"
@@ -57,10 +55,10 @@ alias gnb="git checkout -t -b"
 if [ -x "$(which rg)" ]; then
   alias highlight-github-issues="rg --color always --colors match:fg:magenta --passthru '#\d+'"
   alias highlight-version="rg --color always --colors match:fg:cyan --passthru 'v?\d+\.\d+\.\d+[^\s]*'"
-  alias highlight-glog-graph="hilight-github-issues | highlight-version"
+  alias highlight-glog-graph="highlight-github-issues | highlight-version"
 else
-  alias hilite-github-issues='GREP_COLORS="mt=1;36" grep --color=yes -e "" -e "(\?#[0-9]\+)\?\s*$"'
-  alias highlight-glog-graph="hilight-github-issues"
+  alias highlight-github-issues='GREP_COLORS="mt=1;36" grep --color=yes -e "" -e "(\?#[0-9]\+)\?\s*$"'
+  alias highlight-glog-graph="highlight-github-issues"
 fi
 alias glog-graph="git log --graph --date=short --format=tformat:'%w(300,0,11)%C(yellow)%ad %Cblue%aN%Creset: %Cgreen%h%Creset %Cgreen% D%Creset %s'"
 glog-num() {
@@ -70,7 +68,7 @@ glog-num() {
         glog-graph -10 --color=always "$@" | highlight-glog-graph
     fi
 }
-glog-num-nobot() { glog-num --author='^[^<]+<(?!.*[bB][oO][tT].*@(users.noreply.github.com|unito.io)).*>$' --perl-regexp "$@"; }
+glog-num-nobot() { glog-num --author='^[^<]+<(?!.*[bB][oO][tT].*@(users.noreply.github.com|unito.io|martynus.net)|.+@fake-domain.com).*>$' --perl-regexp "$@"; }
 alias gg="glog-num-nobot"
 alias ggbot="glog-num"
 

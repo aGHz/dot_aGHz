@@ -16,6 +16,7 @@ fi
 
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+export PATH="./node_modules/.bin:$PATH"
 
 # programmable completion
 [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion

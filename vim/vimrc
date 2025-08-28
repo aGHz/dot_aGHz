@@ -179,6 +179,8 @@ nnoremap <F11> :set cursorcolumn!<CR>
 " mkview options (Vim scripts that restore the contents of the current window)
 set viewoptions=cursor,folds,options
 set viewdir=~/.vim/view
+" :help directory, in particular trailing // uses the whole file path for the name
+set directory=~/.local/state//
 
 " maintain the buffer's view options and restore them when coming back
 " (in particular topline so that it doesn't scroll the current line to middle of screen)

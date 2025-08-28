@@ -1,18 +1,35 @@
 [user]
   name = Adrian Ghizaru
   email = adrian.ghizaru@gmail.com
+[blame]
+	ignoreRevsFile = .git-blame-ignore-revs
+[branch]
+  color = always
 [core]
   editor = vim
 [diff]
-  external = git_diff_wrapper.sh
+  #external = git_diff_wrapper.sh
   color = always
-[status]
-  color = always
-[branch]
-  color = always
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[init]
+	defaultBranch = main
+[merge]
+  # A better vimdiff git merge tool
+  # http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
+  tool = git_merge_vimdiff
+[mergetool "git_merge_vimdiff"]
+  cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
+  trustExitCode = true
+  keepBackup = false
 [pager]
   diff =
   log =
+[status]
+  color = always
 
 [color "branch"]
   current = green
@@ -27,15 +44,3 @@
   added = yellow
   changed = green
   untracked = magenta
-
-# A better vimdiff git merge tool
-# http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
-[merge]
-  tool = git_merge_vimdiff
-[mergetool "git_merge_vimdiff"]
-  cmd = git_merge_vimdiff.sh vim $BASE $LOCAL $REMOTE $MERGED
-  trustExitCode = true
-  keepBackup = false
-
-[core]
-  excludesfile = ~/.gitignore_global
