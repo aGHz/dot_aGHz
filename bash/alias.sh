@@ -16,6 +16,8 @@ else
   alias v="vim"
 fi
 
+alias vv='v $(fzf)'
+
 alias T='tmux rename-window "$(basename "$(pwd)")"'
 
 alias D="dig +noall +answer"
