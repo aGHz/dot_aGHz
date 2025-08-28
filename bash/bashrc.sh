@@ -33,5 +33,12 @@ shopt -s checkwinsize
 export PAGER=less
 export LESS="-r -iMSx4 -FX"
 
+# asdf
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
+export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
+[ -n "$(type -p brew)" ] && [ -f "$(brew --prefix asdf)/libexec/asdf.sh" ] && . "$(brew --prefix asdf)/libexec/asdf.sh"
+# TODO load asdf.sh on Linux
+
 [ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 99: %.9f\n", time'
 [ -n "$PROFILE_DEBUG" ] && echo "=== .bashrc"
