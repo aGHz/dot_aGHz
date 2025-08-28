@@ -197,6 +197,12 @@ set directory=~/.local/state//
 "au BufLeave * call add(g:EventsHist, 'BL-'.winnr().'-'.bufnr('%'))
 
 
+function RenameTmuxWindow()
+  :silent !tmux rename-window %:r
+  :redraw!
+endfunction
+command! T call RenameTmuxWindow()
+
 " === Vundle
 " https://github.com/gmarik/vundle
 

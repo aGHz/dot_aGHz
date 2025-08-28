@@ -16,6 +16,8 @@ else
   alias v="vim"
 fi
 
+alias T='tmux rename-window "$(basename "$(pwd)")"'
+
 alias D="dig +noall +answer"
 
 alias jupy='jupyter notebook --no-browser --ip=0.0.0.0 --NotebookApp.token=""'
