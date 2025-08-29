@@ -21,7 +21,7 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 shopt -s checkwinsize
 
 # enable color support of ls
-[ -x /usr/bin/dircolors ] && [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+[ -x "/usr/bin/dircolors" ] && ( [ -r "~/.dircolors" ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)" )
 [ -n "$PROFILE_DEBUG" ] && perl -MTime::HiRes=time -e 'printf "~~~ .bashrc 10: %.9f dircolors\n", time'
 
 # aliases and prompt
